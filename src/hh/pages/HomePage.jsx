@@ -10,7 +10,9 @@ export const HomePage = () => {
           backgroundColor: 'primary.main',
         }}
       >
-        <Typography variant="h1">Home Page</Typography>
+        <Typography variant="h1" sx={{
+          color: "#FFFFFF"
+        }}>Home Page</Typography>
       </Grid2>
     </>
   )
