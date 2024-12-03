@@ -3,17 +3,25 @@ import { createSlice } from '@reduxjs/toolkit';
 export const hhSlice = createSlice({
     name: 'hh',
     initialState: {
-        episodes: [],
-        isLoading: false,
+        episodesPerSeason: [],
+        seasons: [],
+        isLoadingSeasons: false,
+        isLoadingEpisodes: false,
     },
     reducers: {
         startLoadingEpisodes: (state, /* action */ ) => {
-            state.isLoading = true;
+            state.isLoadingEpisodes = true;
+        },
+        startLoadingSeasons: ( state ) => {
+            state.isLoadingSeasons = true;
         },
         setEpisodes: ( state, action ) => {
-            state.isLoading = false;
-            console.log(action);
+            state.isLoadingEpisodes = false;
             state.episodes = action.payload.episodes;
+        },
+        setSeasons: ( state, action ) => {
+            state.isLoadingSeasons = false;
+            state.seasons = action.payload.seasons;
         }
     }
 });
@@ -22,5 +30,7 @@ export const hhSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const { 
     startLoadingEpisodes,
-    setEpisodes
+    startLoadingSeasons,
+    setEpisodes,
+    setSeasons,
  } = hhSlice.actions;
