@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { getEpisodesPerSeason } from "../hh";
 
 export const youtubeAPI = createApi({
     reducerPath: 'youtube',
@@ -8,10 +9,14 @@ export const youtubeAPI = createApi({
     }),
 
     endpoints: (builder) => ({
-        getSeasons: builder.query({
-            query: () => '/playlists'
+        getAllSeasons: builder.query({
+            query: ({channelId, maxResults, apiKey}) => `/playlists?part=snippet&channelId=${channelId}&maxResults=${maxResults}&key=${apiKey}`
+        }),
+
+        getSeason: builder.query({
+            query: ({seasonId, apiKey}) => `/playlistItems?part=snippet&playlistId=${seasonId}&key=${apiKey}`
         })
     })
 });
 
-export const { useGetSeasonsQuery } = youtubeAPI;
+export const { useGetAllSeasonsQuery, useGetSeasonQuery } = youtubeAPI;

@@ -14,7 +14,7 @@ export const getSeasons = () => {
 
         const { data } = await youtubeAPI.get(`/playlists?part=snippet&channelId=${channel_id}&maxResults=${max_results}&key=${api_key}`)
         
-        console.log(data);
+        // console.log(data);
         
 
         dispatch( setSeasons({ seasons: data.items }) );
@@ -33,6 +33,6 @@ export const getEpisodesPerSeason = ( season = 2 ) => {
 
 const getSeasonId = (getState, season) => {
     const currentState = getState();
-    console.log(currentState);
+    // console.log(currentState);
     return 0;
 }
