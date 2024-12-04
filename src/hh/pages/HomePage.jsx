@@ -2,11 +2,16 @@ import { Grid2, Typography } from "@mui/material"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getEpisodesPerSeason, getSeasons } from "../../store/hh";
+import { useGetSeasonsQuery } from "../../store/youtube_api";
 
 export const HomePage = () => {
   
   const { seasons } = useSelector(state => state.hh)
   const dispatch = useDispatch();
+
+  const algo = useGetSeasonsQuery();
+  console.log(algo);
+  
 
   useEffect(() => {
     dispatch( getSeasons() );
