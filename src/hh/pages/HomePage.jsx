@@ -14,12 +14,10 @@ const queryParameters = {
 };
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: 'relative',
   width: 600,
-  height: 800,
+  maxHeight: '90vh', // Limit modal height to 90% of the viewport
+  overflowY: 'auto', // Enable vertical scrolling within the modal
   bgcolor: 'primary.main',
   border: '2px solid #000',
   boxShadow: 24,
@@ -88,6 +86,12 @@ export const HomePage = () => {
               onClose={handleModalClose}
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                overflow: 'auto', // Enable scrolling for the entire modal
+              }}
             >
               <Box sx={style}>
                 <Grid container>
