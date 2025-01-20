@@ -14,7 +14,7 @@ export const youtubeAPI = createApi({
         }),
 
         getSeason: builder.query({
-            query: ({seasonId, apiKey}) => `/playlistItems?part=snippet&playlistId=${seasonId}&key=${apiKey}`
+            query: ({seasonId, maxResults, apiKey}) => `/playlistItems?part=snippet&playlistId=${seasonId}&maxResults=${maxResults}&key=${apiKey}`
         })
     })
 });

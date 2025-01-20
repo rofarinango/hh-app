@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, CardMedia, Modal, Typography } from "@mui/material"
+import { Box, Button, Card, CardContent, CardMedia, FormControl, InputLabel, MenuItem, Modal, Select, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getEpisodesPerSeason, getSeasons } from "../../store/hh";
@@ -18,11 +18,13 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
+  width: 600,
+  height: 800,
+  bgcolor: 'primary.main',
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
+  color: 'white',
 };
 
 export const HomePage = () => {
@@ -32,7 +34,7 @@ export const HomePage = () => {
 
   const {data:seasonsData , isLoading: seasonsLoading } = useGetAllSeasonsQuery(queryParameters);
   const { data: episodesData, isLoading: episodesLoading } = useGetSeasonQuery(
-    selectedSeasonId ? { seasonId: selectedSeasonId, apiKey: queryParameters.apiKey } : skipToken
+    selectedSeasonId ? { seasonId: selectedSeasonId, maxResults: 50, apiKey: queryParameters.apiKey } : skipToken
   )
   
   // Modal to show episodes and info logic
@@ -88,12 +90,75 @@ export const HomePage = () => {
               aria-describedby="modal-modal-description"
             >
               <Box sx={style}>
-                <Typography id="modal-modal-title" variant="h6" component="h2">
-                  Text in a modal
-                </Typography>
-                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                  Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                </Typography>
+                <Grid container>
+                  <Grid size={12}>
+                  <Typography id="modal-modal-title" variant="h6" component="h2">
+                    Show title
+                  </Typography>
+                  </Grid>
+                  <Grid size={8}>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                      Episodios
+                    </Typography>
+                  </Grid>
+                  <Grid size={4}>
+                  <FormControl fullWidth>
+                    <InputLabel 
+                      sx={{
+                        color: 'white', // Default color
+                        '&.Mui-focused': {
+                          color: 'white', // Color when focused
+                        },
+                        '&.MuiFormLabel-filled': {
+                          color: 'white', // Color when filled (value selected)
+                        },
+                      }} 
+                      id="season-select-label">Season</InputLabel>
+                    <Select 
+                      labelId="season-select-label"
+                      id="season-select"
+                      value={selectedSeasonId || ""}
+                      label="season"
+                      onChange={(e) => setSelectedSeasonId(e.target.value)} // Update state on change
+                      sx={{
+                        color: 'white',
+                        '.MuiOutlinedInput-notchedOutline': {
+                          borderColor: '#808080', // Border color
+                        },
+                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                          borderColor: '#808080', // Focused border color
+                        },
+                        '&:hover .MuiOutlinedInput-notchedOutline': {
+                          borderColor: '#808080', // Hover border color
+                        },
+                        '.MuiSelect-icon': {
+                          color: '#808080', // Dropdown arrow color
+                        },
+                      }}
+                    >
+                        {seasonsData?.items?.map((season) => (
+                          <MenuItem value={season.id} key={season.id}>
+                            {season.snippet.title}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                  </FormControl>
+                  </Grid>
+                  {
+                    episodesLoading ? (
+                      <Typography>Loading Episodes...</Typography>
+                    ) : selectedSeasonId && episodesData ? (
+                      <div>
+                        <Typography variant="h2">Episodios</Typography>
+                        <ul>
+                          {episodesData.items.map((episode) => (
+                            <li key={episode.id}>{episode.snippet.title}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    ) : null
+                  }
+                </Grid>
               </Box>
             </Modal>
           </Grid>
