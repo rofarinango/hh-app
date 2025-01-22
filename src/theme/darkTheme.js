@@ -11,6 +11,12 @@ export const darkTheme = createTheme({
         },
         error: {
             main: red.A400
+        },
+        text: {
+            primary: 'white'
+        },
+        background: {
+            default: '#141414'
         }
     },
     typography: {
@@ -27,5 +33,70 @@ export const darkTheme = createTheme({
           '"Segoe UI Symbol"',
         ].join(','),
       },
-      
+      components: {
+        MuiInputLabel: {
+            styleOverrides: {
+                root: {
+                    color: 'white',
+                    '&.Mui-focused': { color: 'white' },
+                    '&.MuiFormLabel-filled': { color: 'white' },
+                }
+            }
+        },
+        MuiSelect: {
+            defaultProps: {
+                MenuProps: {
+                  anchorOrigin: {
+                    vertical: "bottom",
+                    horizontal: "right", // Align menu to the right
+                  },
+                  transformOrigin: {
+                    vertical: "top",
+                    horizontal: "right", // Align menu's origin to the right
+                  },
+                },
+            },
+            styleOverrides: {
+                root: {
+                backgroundColor: '#242424',
+                color: "white",
+                ".MuiSvgIcon-root": {
+                        color: "white", // Dropdown icon color
+                    },
+                },
+            },
+        },
+        MuiMenu: {
+            styleOverrides: {
+              paper: {
+                backgroundColor: "#242424", // Set the background color
+                border: "none", // Remove any borders
+                boxShadow: "none", // Remove box-shadow if present
+              },
+              
+            },
+          },
+        MuiMenuItem: {
+          styleOverrides: {
+            root: {
+                backgroundColor: '#242424',
+                "&:hover": {
+                    backgroundColor: '#424242',
+                },
+                
+            },
+          },
+        },
+        MuiInputLabel: {
+            styleOverrides: {
+                root: {
+                color: "white",
+                "&.Mui-focused": {
+                    transform: "none", // Disable transform on focus
+                    display: "none"
+                },
+                },
+            },
+        },
+      },
 })

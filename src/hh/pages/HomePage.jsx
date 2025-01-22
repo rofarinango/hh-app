@@ -54,8 +54,6 @@ export const HomePage = () => {
         direction='column'
         sx={{
           minHeight: '100vh', 
-          backgroundColor: 'primary.main',
-          color: 'white',
         }}
       >
         <Grid size={12} sx={{
@@ -108,37 +106,12 @@ export const HomePage = () => {
                   <Grid size={4}>
                   <FormControl fullWidth>
                     <InputLabel 
-                      sx={{
-                        color: 'white', // Default color
-                        '&.Mui-focused': {
-                          color: 'white', // Color when focused
-                        },
-                        '&.MuiFormLabel-filled': {
-                          color: 'white', // Color when filled (value selected)
-                        },
-                      }} 
                       id="season-select-label">Season</InputLabel>
-                    <Select 
+                    <Select
                       labelId="season-select-label"
                       id="season-select"
                       value={selectedSeasonId || ""}
-                      label="season"
                       onChange={(e) => setSelectedSeasonId(e.target.value)} // Update state on change
-                      sx={{
-                        color: 'white',
-                        '.MuiOutlinedInput-notchedOutline': {
-                          borderColor: '#808080', // Border color
-                        },
-                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                          borderColor: '#808080', // Focused border color
-                        },
-                        '&:hover .MuiOutlinedInput-notchedOutline': {
-                          borderColor: '#808080', // Hover border color
-                        },
-                        '.MuiSelect-icon': {
-                          color: '#808080', // Dropdown arrow color
-                        },
-                      }}
                     >
                         {seasonsData?.items?.map((season) => (
                           <MenuItem value={season.id} key={season.id}>
