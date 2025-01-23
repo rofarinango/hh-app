@@ -47,6 +47,18 @@ export const HomePage = () => {
     setSelectedSeasonId(seasonId);
   }
 
+  // Function to sort the seasons
+  const sortSeasons = (seasons) => {
+    return [...seasons].sort((a, b) => {
+      const seasonNumberA = parseInt(a.title.match(/\d+/)) || 0;
+      const seasonNumberB = parseInt(b.title.match(/\d+/)) || 0;
+      return seasonNumberA - seasonNumberB;
+    });
+  };
+
+  // Sort the seasons data before rendering
+  const sortedSeasons = seasonsData ? sortSeasons(seasonsData) : [];
+
   return (
     <>
       <Grid
@@ -113,9 +125,11 @@ export const HomePage = () => {
                       value={selectedSeasonId || ""}
                       onChange={(e) => setSelectedSeasonId(e.target.value)} // Update state on change
                     >
-                        {seasonsData?.items?.map((season) => (
+                      {console.log(sortedSeasons)
+                      }
+                        {sortedSeasons?.map((season) => (
                           <MenuItem value={season.id} key={season.id}>
-                            {season.snippet.title}
+                            {season.title}
                           </MenuItem>
                         ))}
                     </Select>
