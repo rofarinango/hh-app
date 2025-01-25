@@ -53,7 +53,7 @@ export const HomePage = () => {
       const seasonNumberA = parseInt(a.title.match(/\d+/)) || 0;
       const seasonNumberB = parseInt(b.title.match(/\d+/)) || 0;
       return seasonNumberA - seasonNumberB;
-    });
+    }).slice(1);
   };
 
   // Sort the seasons data before rendering
@@ -71,7 +71,7 @@ export const HomePage = () => {
         <Grid size={12} sx={{
           textAlign:'center'
         }}>
-          <Typography variant="h1">Show Title</Typography>
+          <Typography variant="h1">{sortedSeasons[0]?.snippet.channelTitle}</Typography>
         </Grid>
 
         <Grid
@@ -106,41 +106,44 @@ export const HomePage = () => {
               <Box sx={style}>
                 <Grid container>
                   <Grid size={12}>
-                  <Typography id="modal-modal-title" variant="h6" component="h2">
+                  <Typography id="modal-modal-title" variant="h4" sx={{mb: 2}}>
                     {sortedSeasons[0]?.snippet.channelTitle}
                   </Typography>
                   </Grid>
-                  <Grid size={8}>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                  <Grid size={8} sx={{ display: "flex", alignItems: "center" }}>
+                    <Typography variant="h4" id="modal-modal-description" >
                       Episodios
                     </Typography>
                   </Grid>
                   <Grid size={4}>
                   <FormControl fullWidth>
-                    <InputLabel 
-                      id="season-select-label">Season</InputLabel>
-                    <Select
-                      labelId="season-select-label"
-                      id="season-select"
-                      value={selectedSeasonId || ""}
-                      onChange={(e) => setSelectedSeasonId(e.target.value)} // Update state on change
-                    >
-                      {console.log(seasonsData)
-                      }
-                        {sortedSeasons?.map((season) => (
-                          <MenuItem value={season.id} key={season.id}>
-                            <Typography sx={{fontWeight: 'bold'}}>{season.title}</Typography>
-                            <Typography
-                              component="div"
-                            >
-                              <Box
-                              sx={{textAlign: "right", fontSize: "12px", width: "95px"}}>
-                              ({season.totalEpisodes} episodios)
-                              </Box>
-                            </Typography>
-                          </MenuItem>
-                        ))}
-                    </Select>
+                  <Select
+                    labelId="season-select-label"
+                    id="season-select"
+                    value={selectedSeasonId || sortedSeasons[0]?.id}
+                    onChange={(e) => setSelectedSeasonId(e.target.value)} // Update state on change
+                    renderValue={(selected) => {
+                      // Find the selected season by ID
+                      const selectedSeason = sortedSeasons.find((season) => season.id === selected);
+                      // Return only the season title
+                      return (
+                        <Typography sx={{ fontWeight: 'bold' }}>
+                          {selectedSeason?.title || ''}
+                        </Typography>
+                      );
+                    }}
+                  >
+                    {sortedSeasons?.map((season) => (
+                      <MenuItem value={season.id} key={season.id}>
+                        <Typography sx={{ fontWeight: 'bold' }}>{season.title}</Typography>
+                        <Typography component="div">
+                          <Box sx={{ textAlign: 'right', fontSize: '12px', width: '95px' }}>
+                            ({season.totalEpisodes} episodios)
+                          </Box>
+                        </Typography>
+                      </MenuItem>
+                    ))}
+                  </Select>
                   </FormControl>
                   </Grid>
                   {

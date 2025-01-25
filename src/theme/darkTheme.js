@@ -87,16 +87,5 @@ export const darkTheme = createTheme({
             },
           },
         },
-        MuiInputLabel: {
-            styleOverrides: {
-                root: {
-                color: "white",
-                "&.Mui-focused": {
-                    transform: "none", // Disable transform on focus
-                    display: "none"
-                },
-                },
-            },
-        },
       },
 })
