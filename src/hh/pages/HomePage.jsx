@@ -107,7 +107,7 @@ export const HomePage = () => {
                 <Grid container>
                   <Grid size={12}>
                   <Typography id="modal-modal-title" variant="h6" component="h2">
-                    Show title
+                    {sortedSeasons[0]?.snippet.channelTitle}
                   </Typography>
                   </Grid>
                   <Grid size={8}>
