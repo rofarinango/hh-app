@@ -125,11 +125,19 @@ export const HomePage = () => {
                       value={selectedSeasonId || ""}
                       onChange={(e) => setSelectedSeasonId(e.target.value)} // Update state on change
                     >
-                      {console.log(sortedSeasons)
+                      {console.log(seasonsData)
                       }
                         {sortedSeasons?.map((season) => (
                           <MenuItem value={season.id} key={season.id}>
-                            {season.title}
+                            <Typography sx={{fontWeight: 'bold'}}>{season.title}</Typography>
+                            <Typography
+                              component="div"
+                            >
+                              <Box
+                              sx={{textAlign: "right", fontSize: "12px", width: "95px"}}>
+                              ({season.totalEpisodes} episodios)
+                              </Box>
+                            </Typography>
                           </MenuItem>
                         ))}
                     </Select>

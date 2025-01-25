@@ -9,7 +9,7 @@ export const youtubeAPI = createApi({
     endpoints: (builder) => ({
         getAllSeasons: builder.query({
             query: ({ channelId, maxResults, apiKey }) =>
-                `/playlists?part=snippet&channelId=${channelId}&maxResults=${maxResults}&key=${apiKey}`,
+                `/playlists?part=snippet,contentDetails&channelId=${channelId}&maxResults=${maxResults}&key=${apiKey}`,
             transformResponse: (response) => {
                 const seasonNameToNumber = {
                     'Primera': 1,
@@ -33,6 +33,7 @@ export const youtubeAPI = createApi({
                     return {
                         id: item.id,
                         title: seasonNumber ? `Temporada ${seasonNumber}` : seasonName,
+                        totalEpisodes: item.contentDetails.itemCount,
                         ...item,
                     };
                 });
