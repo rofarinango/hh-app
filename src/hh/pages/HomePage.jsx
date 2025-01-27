@@ -146,18 +146,41 @@ export const HomePage = () => {
                   </Select>
                   </FormControl>
                   </Grid>
+                  {/* {console.log(episodesData) */}
+                  
                   {
                     episodesLoading ? (
                       <Typography>Loading Episodes...</Typography>
                     ) : selectedSeasonId && episodesData ? (
-                      <div>
-                        <Typography variant="h2">Episodios</Typography>
-                        <ul>
-                          {episodesData.items.map((episode) => (
-                            <li key={episode.id}>{episode.snippet.title}</li>
+                      <Grid container>
+                        <Grid size={12}><Typography variant="h2">Episodios</Typography></Grid>
+                        
+                          {console.log(episodesData)
+                          }
+                          {episodesData?.map((episode, index) => (
+                            
+                            
+                            <Grid key={episode.id} container>
+                              <div>{console.log(episode)
+                              }</div>
+                              <Grid size={1} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                <Typography variant="h6">
+                                  {index+1}
+                                </Typography>
+                              </Grid>
+                              <Grid size={3}>
+                              <CardMedia
+                                  component="img"
+                                  alt="thumnail"
+                                  image={episode.snippet.thumbnails.default? episode.snippet.thumbnails.default.url : "../../../public/hh-logo.jpg"} // TODO get banner from API
+                                />
+                              </Grid>
+                              <Grid size={8}>
+                              <li key={episode.id}>{episode.title}</li>
+                              </Grid>
+                            </Grid>
                           ))}
-                        </ul>
-                      </div>
+                      </Grid>
                     ) : null
                   }
                 </Grid>

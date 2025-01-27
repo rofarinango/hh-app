@@ -43,6 +43,43 @@ export const youtubeAPI = createApi({
         getSeason: builder.query({
             query: ({ seasonId, maxResults, apiKey }) =>
                 `/playlistItems?part=snippet&playlistId=${seasonId}&maxResults=${maxResults}&key=${apiKey}`,
+            transformResponse: (response) => {
+                // Fallback to an empty array if response.items is undefined
+                const items = response?.items || [];
+            
+                const toSentenceCase = (text) =>
+                    text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+            
+                return items.map((item) => {
+                    const title = item.snippet.title;
+            
+                    // Match text inside square brackets
+                    const match = title.match(/\[(.*?)\]/g);
+                    let extractedText;
+            
+                    if (match && match.length) {
+                        // Extract the first match without brackets
+                        extractedText = match[0].slice(1, -1);
+                    } else {
+                        // Extract text after the first '-' if no brackets are found
+                        const dashIndex = title.indexOf('-');
+                        extractedText = dashIndex !== -1 ? title.slice(dashIndex + 1).trim() : title;
+                    }
+            
+                    // Convert to Sentence Case
+                    const sentenceCasedTitle = extractedText
+                        .split(' ')
+                        .map(toSentenceCase)
+                        .join(' ');
+            
+                    return {
+                        id: item.id,
+                        title: sentenceCasedTitle,
+                        ...item,
+                    };
+                });
+            }
+            
         })
     })
 });
