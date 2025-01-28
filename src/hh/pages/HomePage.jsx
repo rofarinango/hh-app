@@ -6,6 +6,7 @@ import { useGetAllSeasonsQuery, useGetSeasonQuery } from "../../store/youtube_ap
 import youtubeAPIConfig from "../../store/youtube_api/config";
 import { skipToken } from "@reduxjs/toolkit/query";
 import Grid from "@mui/material/Grid2"
+import CloseIcon from "@mui/icons-material/Close";
 
 const queryParameters = {
   channelId: youtubeAPIConfig.channelID,
@@ -21,8 +22,8 @@ const style = {
   bgcolor: 'primary.main',
   border: '2px solid #000',
   boxShadow: 24,
-  p: 4,
-  color: 'white',
+  p: 6,
+  color: '#FFFFFF',
 };
 
 export const HomePage = () => {
@@ -105,14 +106,37 @@ export const HomePage = () => {
               }}
             >
               <Box sx={style}>
+                <Button
+                    onClick={handleModalClose}
+                    sx={{
+                      position: "absolute",
+                      top: "16px",
+                      right: "16px",
+                      backgroundColor: "black",
+                      color: "text.primary",
+                      minWidth: "40px",
+                      minHeight: "40px",
+                      borderRadius: "50%",
+                    }}
+                  >
+                    <CloseIcon />
+                  </Button>
                 <Grid container>
-                  <Grid size={12}>
-                  <Typography id="modal-modal-title" variant="h4" sx={{mb: 2}}>
-                    {sortedSeasons[0]?.snippet.channelTitle}
-                  </Typography>
-                  </Grid>
+                  <Box sx={{width: '100%'}}>
+                    <Grid container>
+                      <Grid size={8}>
+                        <CardMedia
+                          component="img"
+                          alt="hh banner"
+                          height="200"
+                          image="../../../public/hh-logo-large.png" // TODO get banner from API
+                          sx={{objectFit: 'contain'}}
+                        />
+                      </Grid>
+                    </Grid>
+                  </Box>
                   <Grid size={8} sx={{ display: "flex", alignItems: "center" }}>
-                    <Typography variant="h4" id="modal-modal-description" >
+                    <Typography variant="h5" id="modal-modal-description" >
                       Episodios
                     </Typography>
                   </Grid>
@@ -147,16 +171,11 @@ export const HomePage = () => {
                   </Select>
                   </FormControl>
                   </Grid>
-                  {/* {console.log(episodesData) */}
-                  
                   {
                     episodesLoading ? (
                       <Typography>Loading Episodes...</Typography>
                     ) : selectedSeasonId && episodesData ? (
                       <Box sx={{width: '100%'}}>
-                        
-                          {console.log(episodesData)
-                          }
                           <List>
                           {episodesData?.map((episode, index) => (
                             <>

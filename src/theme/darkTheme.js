@@ -13,7 +13,7 @@ export const darkTheme = createTheme({
             main: red.A400
         },
         text: {
-            primary: 'white'
+            primary: '#FFFFFF'
         },
         background: {
             default: '#141414'
