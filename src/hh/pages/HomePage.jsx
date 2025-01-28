@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardContent, CardMedia, Divider, FormControl, InputLabel, MenuItem, Modal, Select, Typography } from "@mui/material"
+import { Box, Button, Card, CardContent, CardMedia, Divider, FormControl, InputLabel, List, ListItem, ListItemButton, ListItemText, MenuItem, Modal, Select, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getEpisodesPerSeason, getSeasons } from "../../store/hh";
@@ -152,35 +152,39 @@ export const HomePage = () => {
                     episodesLoading ? (
                       <Typography>Loading Episodes...</Typography>
                     ) : selectedSeasonId && episodesData ? (
-                      <Grid container>
+                      <Box sx={{width: '100%'}}>
                         
                           {console.log(episodesData)
                           }
+                          <List>
                           {episodesData?.map((episode, index) => (
-                            
-                            
                             <>
-                              <Grid size={1} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                <Typography variant="h6">
-                                  {index+1}
-                                </Typography>
-                              </Grid>
-                              <Grid size={3} sx={{ padding: 1}}>
-                              <CardMedia
-                                  component="img"
-                                  alt="thumnail"
-                                  image={episode.snippet.thumbnails.default? episode.snippet.thumbnails.default.url : "../../../public/hh-logo.jpg"} // TODO get banner from API
-                                />
-                              </Grid>
-                              <Grid size={8} sx={{ display: "flex", alignItems: "center", padding: 2 }}>
-                              <Typography sx={{ fontWeight: "bold"}} key={episode.id}>
-                                {episode.title}
-                              </Typography>
-                              </Grid>
+                              <ListItem disablePadding>
+                                <ListItemButton>
+                                  <Grid size={1} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                    <Typography variant="h6">
+                                      {index+1}
+                                    </Typography>
+                                  </Grid>
+                                  <Grid size={3} sx={{ padding: 1}}>
+                                  <CardMedia
+                                      component="img"
+                                      alt="thumnail"
+                                      image={episode.snippet.thumbnails.default? episode.snippet.thumbnails.default.url : "../../../public/hh-logo.jpg"} // TODO get banner from API
+                                    />
+                                  </Grid>
+                                  <Grid size={8} sx={{ display: "flex", alignItems: "center", padding: 2 }}>
+                                  <Typography sx={{ fontWeight: "bold"}} key={episode.id}>
+                                    {episode.title}
+                                  </Typography>
+                                  </Grid>
+                                </ListItemButton>
+                              </ListItem>
                               <Divider sx={{ bgcolor: '#3f3f3f', height: '2px', width: '100%' }} />
                             </>
                           ))}
-                      </Grid>
+                          </List>
+                      </Box>
                     ) : null
                   }
                 </Grid>
