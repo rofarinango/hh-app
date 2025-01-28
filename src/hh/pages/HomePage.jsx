@@ -16,8 +16,8 @@ const queryParameters = {
 const style = {
   position: 'relative',
   width: '50vw',
-  maxHeight: '90vh', // Limit modal height to 90% of the viewport
-  overflowY: 'auto', // Enable vertical scrolling within the modal
+  // maxHeight: '90vh', // Limit modal height to 90% of the viewport
+  // overflowY: 'auto', // Enable vertical scrolling within the modal
   bgcolor: 'primary.main',
   border: '2px solid #000',
   boxShadow: 24,
@@ -98,7 +98,8 @@ export const HomePage = () => {
               aria-describedby="modal-modal-description"
               sx={{
                 display: 'flex',
-                alignItems: 'center',
+                alignItems: 'flex-start',
+                pt: 4,
                 justifyContent: 'center',
                 overflow: 'auto', // Enable scrolling for the entire modal
               }}
