@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardContent, CardMedia, FormControl, InputLabel, MenuItem, Modal, Select, Typography } from "@mui/material"
+import { Box, Button, Card, CardContent, CardMedia, Divider, FormControl, InputLabel, MenuItem, Modal, Select, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getEpisodesPerSeason, getSeasons } from "../../store/hh";
@@ -15,7 +15,7 @@ const queryParameters = {
 
 const style = {
   position: 'relative',
-  width: 600,
+  width: '50vw',
   maxHeight: '90vh', // Limit modal height to 90% of the viewport
   overflowY: 'auto', // Enable vertical scrolling within the modal
   bgcolor: 'primary.main',
@@ -153,32 +153,32 @@ export const HomePage = () => {
                       <Typography>Loading Episodes...</Typography>
                     ) : selectedSeasonId && episodesData ? (
                       <Grid container>
-                        <Grid size={12}><Typography variant="h2">Episodios</Typography></Grid>
                         
                           {console.log(episodesData)
                           }
                           {episodesData?.map((episode, index) => (
                             
                             
-                            <Grid key={episode.id} container>
-                              <div>{console.log(episode)
-                              }</div>
+                            <>
                               <Grid size={1} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 <Typography variant="h6">
                                   {index+1}
                                 </Typography>
                               </Grid>
-                              <Grid size={3}>
+                              <Grid size={3} sx={{ padding: 1}}>
                               <CardMedia
                                   component="img"
                                   alt="thumnail"
                                   image={episode.snippet.thumbnails.default? episode.snippet.thumbnails.default.url : "../../../public/hh-logo.jpg"} // TODO get banner from API
                                 />
                               </Grid>
-                              <Grid size={8}>
-                              <li key={episode.id}>{episode.title}</li>
+                              <Grid size={8} sx={{ display: "flex", alignItems: "center", padding: 2 }}>
+                              <Typography sx={{ fontWeight: "bold"}} key={episode.id}>
+                                {episode.title}
+                              </Typography>
                               </Grid>
-                            </Grid>
+                              <Divider sx={{ bgcolor: '#3f3f3f', height: '2px', width: '100%' }} />
+                            </>
                           ))}
                       </Grid>
                     ) : null
