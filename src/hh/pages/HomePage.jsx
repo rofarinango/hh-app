@@ -7,6 +7,7 @@ import youtubeAPIConfig from "../../store/youtube_api/config";
 import { skipToken } from "@reduxjs/toolkit/query";
 import Grid from "@mui/material/Grid2"
 import CloseIcon from "@mui/icons-material/Close";
+import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 
 const queryParameters = {
   channelId: youtubeAPIConfig.channelID,
@@ -89,7 +90,8 @@ export const HomePage = () => {
                 component="img"
                 alt="hh banner"
                 height="200"
-                image="../../../public/hh-logo.jpg" // TODO get banner from API
+                image="../../../hh-logo.jpg" // TODO get banner from API
+                sx={{objectFit: 'cover'}}
               />
             </Card>
             <Modal
@@ -129,7 +131,7 @@ export const HomePage = () => {
                           component="img"
                           alt="hh banner"
                           height="200"
-                          image="../../../public/hh-logo-large.png" // TODO get banner from API
+                          image="../../../hh-logo-large.png" // TODO get banner from API
                           sx={{objectFit: 'contain'}}
                         />
                       </Grid>
@@ -178,30 +180,48 @@ export const HomePage = () => {
                       <Box sx={{width: '100%'}}>
                           <List>
                           {episodesData?.map((episode, index) => (
-                            <>
-                              <ListItem disablePadding>
-                                <ListItemButton>
-                                  <Grid size={1} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                    <Typography variant="h6">
-                                      {index+1}
-                                    </Typography>
-                                  </Grid>
-                                  <Grid size={3} sx={{ padding: 1}}>
+                            <Box key={episode.id} sx={{ position: "relative", "&:hover .play-icon": { opacity: 1 } }}>
+                            <ListItem disablePadding>
+                              <ListItemButton>
+                                <Grid size={1} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                  <Typography variant="h6">{index + 1}</Typography>
+                                </Grid>
+                                <Grid size={3} sx={{ padding: 1, position: "relative" }}>
+                                  {/* Thumbnail Image */}
                                   <CardMedia
-                                      component="img"
-                                      alt="thumnail"
-                                      image={episode.snippet.thumbnails.default? episode.snippet.thumbnails.default.url : "../../../public/hh-logo.jpg"} // TODO get banner from API
-                                    />
-                                  </Grid>
-                                  <Grid size={8} sx={{ display: "flex", alignItems: "center", padding: 2 }}>
-                                  <Typography sx={{ fontWeight: "bold"}} key={episode.id}>
-                                    {episode.title}
-                                  </Typography>
-                                  </Grid>
-                                </ListItemButton>
-                              </ListItem>
-                              <Divider sx={{ bgcolor: '#3f3f3f', height: '2px', width: '100%' }} />
-                            </>
+                                    component="img"
+                                    alt="thumbnail"
+                                    image={episode.snippet.thumbnails.default ? episode.snippet.thumbnails.default.url : "../../../hh-logo.jpg"}
+                                    sx={{ width: "100%", borderRadius: "4px" }}
+                                  />
+                                  {/* Play Icon (Hidden by Default, Shows on Hover) */}
+                                  <Box
+                                    className="play-icon"
+                                    sx={{
+                                      position: "absolute",
+                                      top: "50%",
+                                      left: "50%",
+                                      transform: "translate(-50%, -50%)",
+                                      opacity: 0,
+                                      transition: "opacity 0.3s ease-in-out",
+                                    }}
+                                  >
+                                    <svg width="75" height="75" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                                      {/* Outer Circle with Thin Outline & Transparent Fill */}
+                                      <circle cx="12" cy="12" r="10" strokeWidth="0.5" fill="rgba(0, 0, 0, 0.2)" />
+                                      
+                                      {/* Play Triangle (Solid White) */}
+                                      <polygon points="10,8 16,12 10,16" fill="white" />
+                                    </svg>
+                                  </Box>
+                                </Grid>
+                                <Grid size={8} sx={{ display: "flex", alignItems: "center", padding: 2 }}>
+                                  <Typography sx={{ fontWeight: "bold" }}>{episode.title}</Typography>
+                                </Grid>
+                              </ListItemButton>
+                            </ListItem>
+                            <Divider sx={{ bgcolor: "#3f3f3f", height: "2px", width: "100%" }} />
+                          </Box>
                           ))}
                           </List>
                       </Box>
