@@ -8,6 +8,7 @@ import { skipToken } from "@reduxjs/toolkit/query";
 import Grid from "@mui/material/Grid2"
 import CloseIcon from "@mui/icons-material/Close";
 import ReactPlayer from "react-player/lazy";
+import { useNavigate } from "react-router-dom";
 
 const queryParameters = {
   channelId: youtubeAPIConfig.channelID,
@@ -28,6 +29,7 @@ const style = {
 export const HomePage = () => {
   
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [selectedSeasonId, setSelectedSeasonId] = useState(null);
 
   const {data:seasonsData , isLoading: seasonsLoading } = useGetAllSeasonsQuery(queryParameters);
@@ -47,6 +49,9 @@ export const HomePage = () => {
     setSelectedSeasonId(seasonId);
   }
 
+  const onClickEpisode = (episodeId) => {
+    navigate(`/watch/${episodeId}`);
+  }
   // Function to sort the seasons
   const sortSeasons = (seasons) => {
     return [...seasons].sort((a, b) => {
@@ -220,7 +225,9 @@ export const HomePage = () => {
                             {episodesData?.map((episode, index) => (
                               <Box key={episode.id} sx={{ position: "relative", "&:hover .play-icon": { opacity: 1 } }}>
                               <ListItem disablePadding>
-                                <ListItemButton>
+                                <ListItemButton onClick={() => onClickEpisode(episode.snippet.resourceId.videoId)}>
+                                  {console.log(episode)
+                                  }
                                   <Grid size={1} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                                     <Typography variant="h6">{index + 1}</Typography>
                                   </Grid>
