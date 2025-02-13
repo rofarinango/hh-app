@@ -80,8 +80,24 @@ export const youtubeAPI = createApi({
                 });
             }
             
+        }),
+
+        searchVideos: builder.mutation({
+            query: (params) => ({
+                url: 'search',
+                method: 'GET',
+                params: {
+                    ...params,
+                    part: 'snippet',
+                    type: 'video',
+                }
+            })
         })
     })
 });
 
-export const { useGetAllSeasonsQuery, useGetSeasonQuery } = youtubeAPI;
+export const { 
+    useGetAllSeasonsQuery, 
+    useGetSeasonQuery,
+    useSearchVideosMutation 
+} = youtubeAPI;

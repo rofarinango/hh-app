@@ -2,7 +2,7 @@ import { Box, Button, Card, CardContent, CardMedia, Divider, FormControl, InputL
 import { useEffect, useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getEpisodesPerSeason, getSeasons } from "../../store/hh";
-import { useGetAllSeasonsQuery, useGetSeasonQuery } from "../../store/youtube_api";
+import { useGetAllSeasonsQuery, useGetSeasonQuery } from "../../store/youtube_api/youtubeAPI";
 import youtubeAPIConfig from "../../store/youtube_api/config";
 import { skipToken } from "@reduxjs/toolkit/query";
 import Grid from "@mui/material/Grid2"
@@ -11,6 +11,7 @@ import ReactPlayer from "react-player/lazy";
 import { useNavigate } from "react-router-dom";
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import { NavBar } from '../components/NavBar';
 
 const queryParameters = {
   channelId: youtubeAPIConfig.channelID,
@@ -121,6 +122,7 @@ export const HomePage = () => {
   return (
     <Box
       ref={mainContainerRef}
+      data-main-container
       sx={{
         height: '100vh',
         overflow: 'auto',
@@ -131,6 +133,7 @@ export const HomePage = () => {
         scrollbarWidth: 'none',
       }}
     >
+      <NavBar />
       {/* Main Container for Preview and Sections */}
       <Box sx={{ position: 'relative' }}>
         {/* Preview Section */}

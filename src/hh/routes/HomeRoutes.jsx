@@ -1,6 +1,5 @@
-
 import { Navigate, Route, Routes } from 'react-router-dom'
-import { HomePage, EpisodePage } from '../pages'
+import { HomePage, EpisodePage, SearchPage } from '../pages'
 
 export const HomeRoutes = () => {
   return (
@@ -13,6 +12,10 @@ export const HomeRoutes = () => {
         <Route 
           path="/watch/:episodeId" 
           element={<EpisodePage />} 
+        />
+        <Route
+          path="/search"
+          element={<SearchPage />}
         />
         <Route
           path='/*'
