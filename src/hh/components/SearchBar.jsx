@@ -22,13 +22,17 @@ export const SearchBar = ({ onClose }) => {
       }, []);
   });
 
+  // Add logic to include "No Somos TV" episodes
+  const allShows = useSelector(state => state.hh.shows); // Assuming shows are stored in Redux
+  const allVideos = [...allEpisodes, ...allShows]; // Combine both sources
+
   const handleSearch = async (e) => {
     e.preventDefault();
     if (searchTerm.trim()) {
       try {
         setIsLoading(true);
-        const filteredResults = allEpisodes.filter(episode => 
-          episode.snippet.title.toLowerCase().includes(searchTerm.toLowerCase())
+        const filteredResults = allVideos.filter(video => 
+          video.snippet.title.toLowerCase().includes(searchTerm.toLowerCase())
         );
 
         // First close the search bar

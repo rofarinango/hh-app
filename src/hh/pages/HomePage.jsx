@@ -2,7 +2,7 @@ import { Box, Button, Card, CardContent, CardMedia, Divider, FormControl, InputL
 import { useEffect, useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getEpisodesPerSeason, getSeasons } from "../../store/hh";
-import { useGetAllSeasonsQuery, useGetSeasonQuery } from "../../store/youtube_api/youtubeAPI";
+import { useGetAllSeasonsQuery, useGetSeasonQuery, useGetNoSomosTVShowsQuery } from "../../store/youtube_api/youtubeAPI";
 import youtubeAPIConfig from "../../store/youtube_api/config";
 import { skipToken } from "@reduxjs/toolkit/query";
 import Grid from "@mui/material/Grid2"
@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import { NavBar } from '../components/NavBar';
+import { NoSomosTVCard } from '../components/NoSomosTVCard';
 
 const queryParameters = {
   channelId: youtubeAPIConfig.channelID,
@@ -42,6 +43,7 @@ export const HomePage = () => {
   const { data: episodesData, isLoading: episodesLoading } = useGetSeasonQuery(
     selectedSeasonId ? { seasonId: selectedSeasonId, maxResults: 50, apiKey: queryParameters.apiKey } : skipToken
   )
+  const { data: noSomosTVData, isLoading: noSomosTVLoading } = useGetNoSomosTVShowsQuery();
   
   // Add this useEffect to set season 2 as default when seasons data loads
   useEffect(() => {
@@ -60,22 +62,20 @@ export const HomePage = () => {
 
   // Add useEffect to select random episode when seasons and episodes load
   useEffect(() => {
-    if (seasonsData && !randomEpisode) {
-      const sortedSeasons = sortSeasons(seasonsData);
-      // Select random season
-      const randomSeason = sortedSeasons[Math.floor(Math.random() * sortedSeasons.length)];
+    if (seasonsData && noSomosTVData && !randomEpisode) {
+      const allShows = [...seasonsData, ...noSomosTVData];
+      const randomShow = allShows[Math.floor(Math.random() * allShows.length)];
       
-      // Fetch episodes for random season
-      fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${randomSeason.id}&key=${queryParameters.apiKey}`)
+      // Fetch episodes for the random show
+      fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${randomShow.id}&key=${queryParameters.apiKey}`)
         .then(response => response.json())
         .then(data => {
           const episodes = data.items;
-          // Select random episode
           const randomEp = episodes[Math.floor(Math.random() * episodes.length)];
           setRandomEpisode(randomEp);
         });
     }
-  }, [seasonsData]);
+  }, [seasonsData, noSomosTVData]);
 
   // Modal to show episodes and info logic
 
@@ -330,7 +330,7 @@ export const HomePage = () => {
             </Grid>
           </Box>
 
-          {/* Best Shows Section */}
+          {/* Shows Section */}
           <Box sx={{ px: { xs: 8, sm: 8, md: 8 }, mb: 8 }}>
             <Typography
               variant="h4"
@@ -340,30 +340,18 @@ export const HomePage = () => {
                 mb: 3
               }}
             >
-              Best Shows
+              Shows
             </Typography>
             <Grid container spacing={2}>
-              {/* Add your show cards here */}
-              {[1, 2, 3, 4].map((item) => (
-                <Grid key={item} size={3}>
-                  <Card 
-                    onClick={handleModalOpen}
-                    sx={{
-                      "&:hover": { 
-                        cursor: "pointer",
-                        transform: 'scale(1.05)',
-                        transition: 'transform 0.3s ease-in-out'
-                      },
-                      bgcolor: 'transparent'
-                    }}
-                  >
-                    <CardMedia
-                      component="img"
-                      height="200"
-                      image="../../../hh-logo.jpg"
-                      sx={{ objectFit: 'cover' }}
-                    />
-                  </Card>
+              {noSomosTVData && noSomosTVData.slice(0, 4).map(show => (
+                <Grid item xs={12} sm={6} md={3} key={show.id} size={3}>
+                  <NoSomosTVCard 
+                    show={show} 
+                    onClick={() => {
+                      // Handle click to open modal or navigate
+                      handleModalOpen();
+                    }} 
+                  />
                 </Grid>
               ))}
             </Grid>
