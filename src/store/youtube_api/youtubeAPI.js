@@ -83,7 +83,7 @@ export const youtubeAPI = createApi({
         }),
 
         // New endpoint to get No Somos TV shows
-        getNoSomosTVShows: builder.query({
+        getNSTVShows: builder.query({
             query: () => `/playlists?part=status,snippet&channelId=UCZFRsDLdgYLUIbQBSsdyVGg&maxResults=50&key=${import.meta.env.VITE_YOUTUBE_API_KEY}`,
             transformResponse: (response) => {
                 return response.items
@@ -106,13 +106,24 @@ export const youtubeAPI = createApi({
                     type: 'video',
                 }
             })
-        })
+        }),
+
+        // New endpoint to get episodes from a selected playlist
+        getEpisodesFromShow: builder.query({       
+            query: ({ showId, maxResults, apiKey }) => 
+                `/playlistItems?part=snippet&playlistId=${showId}&maxResults=${maxResults}&key=${apiKey}`,
+            transformResponse: (response) => {
+                // Fallback to an empty array if response.items is undefined
+                return response?.items || [];
+            }
+        }),
     })
 });
 
 export const { 
     useGetAllSeasonsQuery, 
     useGetSeasonQuery,
-    useGetNoSomosTVShowsQuery,
-    useSearchVideosMutation 
+    useGetNSTVShowsQuery,
+    useGetEpisodesFromShowQuery,
+    useSearchVideosMutation,
 } = youtubeAPI;
