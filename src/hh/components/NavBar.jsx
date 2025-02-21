@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { SearchBar } from './SearchBar';
+import { SearchBar } from './';
 
 export const NavBar = () => {
   const navigate = useNavigate();
