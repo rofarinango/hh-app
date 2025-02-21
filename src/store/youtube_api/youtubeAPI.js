@@ -82,6 +82,20 @@ export const youtubeAPI = createApi({
             
         }),
 
+        // New endpoint to get No Somos TV shows
+        getNoSomosTVShows: builder.query({
+            query: () => `/playlists?part=status,snippet&channelId=UCZFRsDLdgYLUIbQBSsdyVGg&maxResults=50&key=${import.meta.env.VITE_YOUTUBE_API_KEY}`,
+            transformResponse: (response) => {
+                return response.items
+                    .filter(item => item.snippet.thumbnails.high.url && !item.snippet.thumbnails.high.url.includes("no_thumbnail")) // Exclude items with "no_thumbnail"
+                    .map(item => ({
+                        id: item.id,
+                        title: item.snippet.title,
+                        thumbnailUrl: item.snippet.thumbnails.high.url, // Use high resolution thumbnail
+                    }));
+            }
+        }),
+
         searchVideos: builder.mutation({
             query: (params) => ({
                 url: 'search',
@@ -99,5 +113,6 @@ export const youtubeAPI = createApi({
 export const { 
     useGetAllSeasonsQuery, 
     useGetSeasonQuery,
+    useGetNoSomosTVShowsQuery,
     useSearchVideosMutation 
 } = youtubeAPI;
