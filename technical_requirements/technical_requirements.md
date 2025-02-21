@@ -81,5 +81,25 @@ In the Shows section, we will show all the shows available from the youtube chan
 - [ ] On click card component of a show from "No Somos TV" channel, open a modal that contains a Netflix style selector for the episode to play.
 
 
+### Modals
+
+###$ Hablando Huevadas Modal
+- [x] The modal should have Netflix style.
+- [x] The modal should have a close button in the top right corner overlaying the preview video.
+- [x] The modal should have a preview video that shows a preview of an episode in the top center of the modal.
+- [x] Below the preview video, the modal should have a label "Episodes" to the left side, and to the right side of the label aligned to the right side of the modal, should have a dropdown to select the season.
+- [x] When a season is selected, the modal should show the episodes of the selected season.
+
+Layout example in path'src/technical_requirements/modal_layout_hh.png'
+
+### No Somos TV Modal
+- [ ] The modal should have Netflix style.
+- [ ] The modal should have a close button in the top right corner overlaying the preview video.
+- [ ] The modal should have a preview video that shows a preview of an episode in the top center of the modal.
+- [ ] Below the preview video, the modal should have a label "Episodes" to the left side, and to the right side of the label aligned to the right side of the modal, should have a dropdown to select the show.
+- [ ] When a show is selected, the modal should show the episodes of the selected show.
+
+Layout example in path 'src/technical_requirements/modal_layout_hh.png'
+This layout style is the same as the "Hablando Huevadas" modal but for the "No Somos TV" shows.
 
 
